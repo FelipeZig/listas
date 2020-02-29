@@ -131,12 +131,12 @@ namespace lista5
 
             //Ex.3 - Crie um programa que monte um menu com as opções 1 - Inserir número, 2 - Remover número e 3 - sair.
             //1 - Caso escolhido 1: requisite ao usuário um número e armazene.Imprima a lista sempre após a inserção.Volte para o menu.
-            //2 - Caso escolhido 2, remova da lista o último número inserido.Imprima a lista após a exclusão. Volte para o menu.
+            //2 - Caso escolhido 2, remova da lista o ***último*** número inserido.Imprima a lista após a exclusão. Volte para o menu.
             //3 - Caso escolhi 3, fechar o programa.
 
             //Ex.4 - Crie um programa que monte um menu com as opções 1 - Inserir número, 2 - Remover número e 3 - sair.
             //1 - Caso escolhido 1: requisite ao usuário um número e armazene.Imprima a lista sempre após a inserção.Volte para o menu.
-            //2 - Caso escolhido 2, remova da lista o primeiro número inserido.Imprima a lista após a exclusão. Volte para o menu.
+            //2 - Caso escolhido 2, remova da lista o ***primeiro*** número inserido.Imprima a lista após a exclusão. Volte para o menu.
             //3 - Caso escolhi 3, fechar o programa.
         }
     }
