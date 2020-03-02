@@ -88,44 +88,44 @@ namespace lista5
             //4 - Volte ao menu do passo 1 para nova escolha.
             //5 - Caso escolhi 2, fechar o programa.
 
-            Dictionary<string, string> siteurl = new Dictionary<string, string>();
+            //Dictionary<string, string> siteurl = new Dictionary<string, string>();
 
-            for (int i = 0; i < 5; i++)
-            {
-                Console.WriteLine($"\nDigite o nome do site {i + 1}:");
-                string site = Console.ReadLine();
-                Console.WriteLine($"Digite o url do site {i + 1}:");
-                string url = Console.ReadLine();
-                siteurl.Add(site, url);
-            }
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    Console.WriteLine($"\nDigite o nome do site {i + 1}:");
+            //    string site = Console.ReadLine();
+            //    Console.WriteLine($"Digite o url do site {i + 1}:");
+            //    string url = Console.ReadLine();
+            //    siteurl.Add(site, url);
+            //}
 
-            bool sair = true;
-            do
-            {
-                StringBuilder menu = new StringBuilder();
-                menu.Append("\n### Escolha uma opcao:   ###");
-                menu.Append("\n1 - Encontre um site");
-                menu.Append("\n2 - Sair");
+            //bool sair = true;
+            //do
+            //{
+            //    StringBuilder menu = new StringBuilder();
+            //    menu.Append("\n### Escolha uma opcao:   ###");
+            //    menu.Append("\n1 - Encontre um site");
+            //    menu.Append("\n2 - Sair");
 
-                Console.WriteLine(menu);
+            //    Console.WriteLine(menu);
 
-                int op = int.Parse(Console.ReadLine());
-                if (op == 2)
-                    sair = false;
-                else if (op == 1)
-                {
-                    Console.WriteLine("\nDigite o nome do site que deseja encontrar:");
-                    string busca = Console.ReadLine();
-                    if (siteurl.TryGetValue(busca, out string retorno))
-                    {
-                        Console.WriteLine($"\nA url deste site e: {retorno}");
-                    }
-                    Console.WriteLine("\nO site nao existe no banco de dados");
-                }
-                else
-                    Console.WriteLine("Opcao invalida.");
-            }
-            while (sair);
+            //    int op = int.Parse(Console.ReadLine());
+            //    if (op == 2)
+            //        sair = false;
+            //    else if (op == 1)
+            //    {
+            //        Console.WriteLine("\nDigite o nome do site que deseja encontrar:");
+            //        string busca = Console.ReadLine();
+            //        if (siteurl.TryGetValue(busca, out string retorno))
+            //        {
+            //            Console.WriteLine($"\nA url deste site e: {retorno}");
+            //        }
+            //        Console.WriteLine("\nO site nao existe no banco de dados");
+            //    }
+            //    else
+            //        Console.WriteLine("Opcao invalida.");
+            //}
+            //while (sair);
 
 
 
@@ -133,11 +133,123 @@ namespace lista5
             //1 - Caso escolhido 1: requisite ao usuário um número e armazene.Imprima a lista sempre após a inserção.Volte para o menu.
             //2 - Caso escolhido 2, remova da lista o ***último*** número inserido.Imprima a lista após a exclusão. Volte para o menu.
             //3 - Caso escolhi 3, fechar o programa.
+            
+            //Stack<int> numberStack = new Stack<int>();
+            //bool sair = true;
+            //do
+            //{
+            //    StringBuilder menu = new StringBuilder();
+            //    menu.Append("\n### Escolha uma opcao:   ###");
+            //    menu.Append("\n1 - Inserir um numero");
+            //    menu.Append("\n2 - Remover o ultimo numero inserido");                
+            //    menu.Append("\n3 - Sair");
+
+            //    Console.WriteLine(menu);
+
+            //    int op = int.Parse(Console.ReadLine());
+            //    if (op == 3)
+            //        sair = false;
+            //    else if (op == 1)
+            //    {
+            //        Console.WriteLine("\nDigite um número:");
+            //        int num = Convert.ToInt32(Console.ReadLine());
+            //        numberStack.Push(num);
+            //        Console.WriteLine("Sua lista atualmente possui o(s) seguinte(s) numero(s):");
+            //        foreach (var item in numberStack)
+            //        {
+            //            Console.WriteLine(item);
+            //        }
+            //    }
+            //    else if (op == 2)
+            //    {
+            //        if (numberStack.Count == 0)
+            //        {
+            //            Console.WriteLine("\nA lista nao possui nenhum numero para ser removido!");
+            //        }
+            //        else
+            //        {
+            //            int removido = numberStack.Pop();
+            //            Console.WriteLine($"\nO numero {removido} foi removido com sucesso!");
+            //            Console.WriteLine("\nSua lista agora possui o(s) seguinte(s) numero(s):");
+            //            if (numberStack.Count == 0)
+            //            {
+            //                Console.WriteLine("Nenhum, a lista esta vazia.");
+            //            }
+            //            else
+            //            {
+            //                foreach (var item in numberStack)
+            //                {
+            //                    Console.WriteLine(item);
+            //                }
+            //            }
+                        
+            //        }
+                    
+            //    }
+            //    else
+            //            Console.WriteLine("Opcao invalida.");
+            //}
+            //while (sair);
 
             //Ex.4 - Crie um programa que monte um menu com as opções 1 - Inserir número, 2 - Remover número e 3 - sair.
             //1 - Caso escolhido 1: requisite ao usuário um número e armazene.Imprima a lista sempre após a inserção.Volte para o menu.
             //2 - Caso escolhido 2, remova da lista o ***primeiro*** número inserido.Imprima a lista após a exclusão. Volte para o menu.
             //3 - Caso escolhi 3, fechar o programa.
+
+            Queue<int> numberQueue = new Queue<int>();
+            bool sair = true;
+            do
+            {
+                StringBuilder menu = new StringBuilder();
+                menu.Append("\n### Escolha uma opcao:   ###");
+                menu.Append("\n1 - Inserir um numero");
+                menu.Append("\n2 - Remover o primeiro numero inserido");
+                menu.Append("\n3 - Sair");
+
+                Console.WriteLine(menu);
+
+                int op = int.Parse(Console.ReadLine());
+                if (op == 3)
+                    sair = false;
+                else if (op == 1)
+                {
+                    Console.WriteLine("\nDigite um número:");
+                    int num = Convert.ToInt32(Console.ReadLine());
+                    numberQueue.Enqueue(num);
+                    Console.WriteLine("Sua lista atualmente possui o(s) seguinte(s) numero(s):");
+                    foreach (var item in numberQueue)
+                    {
+                        Console.WriteLine(item);
+                    }
+                }
+                else if (op == 2)
+                {
+                    if (numberQueue.Count == 0)
+                    {
+                        Console.WriteLine("\nA lista nao possui nenhum numero para ser removido!");
+                    }
+                    else
+                    {
+                        int removido = numberQueue.Dequeue();
+                        Console.WriteLine($"\nO numero {removido} foi removido com sucesso!");
+                        Console.WriteLine("\nSua lista agora possui o(s) seguinte(s) numero(s):");
+                        if (numberQueue.Count == 0)
+                        {
+                            Console.WriteLine("Nenhum, a lista esta vazia.");
+                        }
+                        else
+                        {
+                            foreach (var item in numberQueue)
+                            {
+                                Console.WriteLine(item);
+                            }
+                        }
+                    }
+                }
+                else
+                    Console.WriteLine("Opcao invalida.");
+            }
+            while (sair);
         }
     }
 }
