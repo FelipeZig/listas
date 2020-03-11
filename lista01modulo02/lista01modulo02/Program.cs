@@ -91,15 +91,15 @@ namespace lista01modulo02
             else if (usuario == "FelipeI" && senha == "11111" && tipo == TipoLogin.Instagram)
                 return true;
             else
-                return false;            
+                return false;
         }
     }
 
-    public class LoginGmail : SuperLogin
+    public class LoginGmail : SuperLogin //desafio
     {
         public override void Login(string usuario, dynamic senha, TipoLogin tipo)
         {
-            bool resultValidacao = Autentica(usuario, senha, tipo);
+            bool resultValidacao = Autentica(usuario, senha, tipo, 1);
             if (resultValidacao)
                 Console.WriteLine("Login com Gmail realizado com sucesso.");
             else
@@ -109,7 +109,13 @@ namespace lista01modulo02
         {
             Console.WriteLine("Logout realizado com sucesso.");
         }
-        
+        protected virtual bool Autentica(string usuario, dynamic senha, TipoLogin tipo, int desafio)
+        {
+            if (usuario == "FelipeG" && senha == "12345" && tipo == TipoLogin.Gmail)
+                return true;           
+            else
+                return false;
+        }
 
     }
 
