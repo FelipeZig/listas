@@ -22,7 +22,7 @@ namespace lista01modulo02
             {
                 StringBuilder menu = new StringBuilder();                
                 menu.Append("\n###   Escolha uma opcao para logar:   ###");
-                menu.Append("\n1 - Logar com sua canta do GMAIL");
+                menu.Append("\n1 - Logar com sua canta do Gmail");
                 menu.Append("\n2 - Logar com sua conta do Facebook");
                 menu.Append("\n3 - Logar com sua conta do Instagram");
                 menu.Append("\n4 - Sair");
@@ -84,33 +84,14 @@ namespace lista01modulo02
 
         protected virtual bool Autentica(string usuario, dynamic senha, TipoLogin tipo)
         {
-            //if (usuario == "FelipeG" && senha == "12345")
-            //    return true;
-            //else if (usuario == "FelipeF" && senha == "54321")
-            //    return true;
-            //else if (usuario == "FelipeI" && senha == "11111")
-            //    return true;
-            //else
-            //    return false;
-
-            //TipoLogin casos = tipo;
-            switch (tipo)
-            {
-                case TipoLogin.Gmail:
-                    usuario = "FelipeG";
-                    senha = "12345";
-                    return true;
-                case TipoLogin.Facebook:
-                    usuario = "FelipeF";
-                    senha = "54321";
-                    return true;
-                case TipoLogin.Instagram:
-                    usuario = "FelipeI";
-                    senha = "12345";
-                    return true;
-                default:
-                    return false;
-            }
+            if (usuario == "FelipeG" && senha == "12345" && tipo == TipoLogin.Gmail)
+                return true;
+            else if (usuario == "FelipeF" && senha == "54321" && tipo == TipoLogin.Facebook)
+                return true;
+            else if (usuario == "FelipeI" && senha == "11111" && tipo == TipoLogin.Instagram)
+                return true;
+            else
+                return false;            
         }
     }
 
@@ -128,6 +109,8 @@ namespace lista01modulo02
         {
             Console.WriteLine("Logout realizado com sucesso.");
         }
+        
+
     }
 
     public class LoginFacebook : SuperLogin
