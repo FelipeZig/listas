@@ -13,14 +13,14 @@ namespace lista01modulo02
             referencia.Append("\nGmail: usuario = FelipeG ; senha = 12345");
             referencia.Append("\nFacebook: usuario = FelipeF ; senha = 54321");
             referencia.Append("\nInstagram: usuario = FelipeI ; senha = 11111");
-            referencia.Append("\n ");            
+            referencia.Append("\n ");
 
             Console.WriteLine(referencia);
 
             bool menusair = true;
             do
             {
-                StringBuilder menu = new StringBuilder();                
+                StringBuilder menu = new StringBuilder();
                 menu.Append("\n###   Escolha uma opcao para logar:   ###");
                 menu.Append("\n1 - Logar com sua canta do Gmail");
                 menu.Append("\n2 - Logar com sua conta do Facebook");
@@ -29,7 +29,7 @@ namespace lista01modulo02
 
                 Console.WriteLine(menu);
 
-                int op = int.Parse(Console.ReadLine());                
+                int op = int.Parse(Console.ReadLine());
                 TipoLogin opt = (TipoLogin)op;
 
                 if (op == 4)
@@ -48,22 +48,46 @@ namespace lista01modulo02
                     if (opt == TipoLogin.Gmail)
                     {
                         LoginGmail objLogin = new LoginGmail();
-                        objLogin.Login(usuario, senha, TipoLogin.Gmail);
-                        objLogin.Logout();
+                        bool resultValidacao = objLogin.Login(usuario, senha, TipoLogin.Gmail);
+                        if (resultValidacao)
+                            Console.WriteLine("Login com Gmail realizado com sucesso.");
+                        else
+                            Console.WriteLine("Login com Gmail falhou");
+                        bool resultLogout = objLogin.Logout();
+                        if (resultLogout)
+                        {
+                            Console.WriteLine("Logout realizado com sucesso.");
+                        }
                     }
                     else if (opt == TipoLogin.Facebook)
                     {
                         LoginFacebook objLogin = new LoginFacebook();
-                        objLogin.Login(usuario, senha, TipoLogin.Facebook);
-                        objLogin.Logout();
+                        bool resultValidacao = objLogin.Login(usuario, senha, TipoLogin.Facebook);
+                        if (resultValidacao)
+                            Console.WriteLine("Login com Facebook realizado com sucesso.");
+                        else
+                            Console.WriteLine("Login com Facebook falhou");
+                        bool resultLogout = objLogin.Logout();
+                        if (resultLogout)
+                        {
+                            Console.WriteLine("Logout realizado com sucesso.");
+                        }
                     }
                     else if (opt == TipoLogin.Instagram)
                     {
                         LoginInstagram objLogin = new LoginInstagram();
-                        objLogin.Login(usuario, senha, TipoLogin.Instagram);
-                        objLogin.Logout();
-                    }                           
-                }                
+                        bool resultValidacao = objLogin.Login(usuario, senha, TipoLogin.Instagram);
+                        if (resultValidacao)
+                            Console.WriteLine("Login com Instagram realizado com sucesso.");
+                        else
+                            Console.WriteLine("Login com Instagram falhou");
+                        bool resultLogout = objLogin.Logout();
+                        if (resultLogout)
+                        {
+                            Console.WriteLine("Logout realizado com sucesso.");
+                        }
+                    }
+                }
             }
             while (menusair);
         }
@@ -73,14 +97,14 @@ namespace lista01modulo02
     {
         Gmail = 1,
         Facebook = 2,
-        Instagram = 3        
+        Instagram = 3
     }
 
     public abstract class SuperLogin
     {
-        public abstract void Login(string usuario, dynamic senha, TipoLogin tipo);
+        public abstract bool Login(string usuario, dynamic senha, TipoLogin tipo);
 
-        public abstract void Logout();
+        public abstract bool Logout();
 
         protected virtual bool Autentica(string usuario, dynamic senha, TipoLogin tipo)
         {
@@ -97,22 +121,19 @@ namespace lista01modulo02
 
     public class LoginGmail : SuperLogin //desafio
     {
-        public override void Login(string usuario, dynamic senha, TipoLogin tipo)
+        public override bool Login(string usuario, dynamic senha, TipoLogin tipo)
         {
-            bool resultValidacao = Autentica(usuario, senha, tipo, 1);
-            if (resultValidacao)
-                Console.WriteLine("Login com Gmail realizado com sucesso.");
-            else
-                Console.WriteLine("Login com Gmail falhou");
+            bool resultValidacao = Autentica(usuario, senha, TipoLogin.Gmail, 1);
+            return resultValidacao;
         }
-        public override void Logout()
+        public override bool Logout()
         {
-            Console.WriteLine("Logout realizado com sucesso.");
+            return true;
         }
         protected virtual bool Autentica(string usuario, dynamic senha, TipoLogin tipo, int desafio)
         {
             if (usuario == "FelipeG" && senha == "12345" && tipo == TipoLogin.Gmail)
-                return true;           
+                return true;
             else
                 return false;
         }
@@ -121,33 +142,27 @@ namespace lista01modulo02
 
     public class LoginFacebook : SuperLogin
     {
-        public override void Login(string usuario, dynamic senha, TipoLogin tipo)
+        public override bool Login(string usuario, dynamic senha, TipoLogin tipo)
         {
             bool resultValidacao = Autentica(usuario, senha, TipoLogin.Facebook);
-            if (resultValidacao)
-                Console.WriteLine("Login com Facebook realizado com sucesso.");
-            else
-                Console.WriteLine("Login com Facebook falhou");
+            return resultValidacao;
         }
-        public override void Logout()
+        public override bool Logout()
         {
-            Console.WriteLine("Logout realizado com sucesso.");
+            return true;
         }
     }
 
     public class LoginInstagram : SuperLogin
     {
-        public override void Login(string usuario, dynamic senha, TipoLogin tipo)
+        public override bool Login(string usuario, dynamic senha, TipoLogin tipo)
         {
-            bool resultValidacao = Autentica(usuario, senha, tipo);
-            if (resultValidacao)
-                Console.WriteLine("Login com Instagram realizado com sucesso.");
-            else
-                Console.WriteLine("Login com Instagram falhou");
+            bool resultValidacao = Autentica(usuario, senha, TipoLogin.Instagram);
+            return resultValidacao;
         }
-        public override void Logout()
+        public override bool Logout()
         {
-            Console.WriteLine("Logout realizado com sucesso.");
+            return true;
         }
     }
 }
