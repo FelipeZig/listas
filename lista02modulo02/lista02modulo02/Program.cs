@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Security.Cryptography;
@@ -19,88 +20,95 @@ namespace lista02modulo02
             bool menusair = true;
             do
             {
-                StringBuilder menup = new StringBuilder();
-                menup.Append("\n###   AUTENTICACAO:   ###");
-                menup.Append("\n1 - Configurar Usuario/Senha");
-                menup.Append("\n2 - Logar");
-                menup.Append("\n3 - Limpar base");
-                menup.Append("\n4 - Sair");
-
-                Console.WriteLine(menup);
-
+                Menu();
                 int opm = int.Parse(Console.ReadLine());
-
-                if (opm == 4)
+                
+                if (opm == 1)                
+                    CadastrarSenha(_settings);                
+                else if (opm == 2)                
+                    Logar(_settings);                
+                else if (opm == 3)                
+                    LimparBase(_settings);
+                else if (opm == 4)
+                {
+                    Sair();
                     menusair = false;
-                else if (opm == 1)
-                {
-                    Console.WriteLine("Digite o usuario:");
-                    string usuario = Console.ReadLine();
-                    Console.WriteLine("Digite a senha:");
-                    dynamic senha = Console.ReadLine();
-
-                    Cri objCri = new Cri();
-                    string senhaHash = objCri.CriptografarSenha(SHA512.Create(), senha);
-
-                    CriarPasta(_settings);
-                    CriarEscreverArquivo(_settings, usuario, senhaHash);                    
-                }
-                else if (opm == 2)
-                {
-                    
-                }
-                else if (opm == 3)
-                {
-                    
-                }
+                }               
                 else
-                    Console.WriteLine("Opcao invalida, tente novamente.");
+                    OpcaoInvalida();
             }
             while (menusair);
         }
 
-        static bool CriarEscreverArquivo(Settings settings, string usuario, string senha)
+        public static void Menu()
         {
-            if (!File.Exists(settings.Caminho + settings.Pasta + settings.Arquivo))
-            {
-                using (StreamWriter sw = File.CreateText(settings.Caminho + settings.Pasta + settings.Arquivo))
-                {
-                    sw.WriteLine(usuario);
-                    sw.WriteLine(senha);                                       
-                }                
-            }
-            else                
-                return false;
-                       
-            return true;
+            StringBuilder menup = new StringBuilder();
+            menup.Append("\n###   AUTENTICACAO:   ###");
+            menup.Append("\n1 - Configurar Usuario/Senha");
+            menup.Append("\n2 - Logar");
+            menup.Append("\n3 - Limpar base");
+            menup.Append("\n4 - Sair");
+
+            Console.WriteLine(menup);
         }
 
-        static bool CriarPasta(Settings settings)
+        public static void CadastrarSenha(Settings settings)
         {
-            if (!File.Exists(settings.Caminho + settings.Pasta + settings.Arquivo))
-            {                
-                Directory.CreateDirectory(settings.Caminho + settings.Pasta);
-                Console.WriteLine("Usuario salvo com sucesso");
-            }
+            Console.WriteLine("Digite o usuario:");
+            string usuario = Console.ReadLine();
+            Console.WriteLine("Digite a senha:");
+            dynamic senha = Console.ReadLine();
+
+            Criptografia objCri = new Criptografia();
+            string senhaHash = objCri.Criptografar(SHA512.Create(), senha);
+
+            ArquivosEPastas.CriarPasta(settings);
+            bool ok = ArquivosEPastas.CriarEscreverArquivo(settings, usuario, senhaHash);
+            if (ok)
+                Console.WriteLine("Usuario criado com sucesso.");
             else
-            {
                 Console.WriteLine("Usuario ja existe no banco de dados.");
-                return false;
-            }
-            return true;            
         }
 
-        //static bool DeletarPasta()
-        //{
-        //    //Deletar Pasta            
-        //    string folder = @"C:\Users\fe_zi\Desktop\Repo\PastaFileWork\Origem";
-        //    Directory.Delete(folder);
-        //    Console.WriteLine("Sucesso");
-        //}
+        public static void Logar(Settings settings)
+        {
+            Console.WriteLine("\nDigite o nome do usuario: ");
+            string loginUsuario = Console.ReadLine();
+            Console.WriteLine("Digite a senha: ");
+            string loginSenha = Console.ReadLine();
+
+            Criptografia objCri = new Criptografia();
+            string senhaHash2 = objCri.Criptografar(SHA512.Create(), loginSenha);
+
+            bool ok = ArquivosEPastas.LerArquivo(settings, loginUsuario, senhaHash2);            
+            if (ok)            
+                Console.WriteLine("\nLogin realizado com sucesso!");
+            else            
+                Console.WriteLine("\nUsuario ou senha invalidos.");              
+        }
+
+        public static void LimparBase(Settings settings)
+        {
+            bool ok = ArquivosEPastas.DeletarPasta(settings);
+            if (ok)
+                Console.WriteLine("Usuario deletado com sucesso.");
+            else
+                Console.WriteLine("Pasta nao existe.");
+        }
+
+        public static void Sair()
+        {
+            Console.WriteLine("Saindo do sistema...");
+        }
+
+        public static void OpcaoInvalida()
+        {
+            Console.WriteLine("Opcao invalida, tente novamente.");
+        }
     }
-    class Cri
+    class Criptografia
     {
-        public string CriptografarSenha(HashAlgorithm _algoritmo, string senha)
+        public string Criptografar(HashAlgorithm _algoritmo, string senha)
         {
             var encodedValue = Encoding.UTF8.GetBytes(senha);
             var encryptedPassword = _algoritmo.ComputeHash(encodedValue);
@@ -111,7 +119,7 @@ namespace lista02modulo02
             }
             return sb.ToString();
         }
-        public bool VerificarSenha(HashAlgorithm _algoritmo, string senhaDigitada, string senhaCadastrada)
+        public bool Validar(HashAlgorithm _algoritmo, string senhaDigitada, string senhaCadastrada)
         {
             if (string.IsNullOrEmpty(senhaCadastrada))
                 throw new NullReferenceException("Cadastre uma senha.");
@@ -130,5 +138,78 @@ namespace lista02modulo02
         public string Caminho { get; set; }
         public string Pasta { get; set; }
         public string Arquivo { get; set; }
+    }
+
+    public class ArquivosEPastas
+    {
+        public static bool CriarEscreverArquivo(Settings settings, string usuario, string senha)
+        {
+            if (!File.Exists(settings.Caminho + settings.Pasta + settings.Arquivo))
+            {
+                using (StreamWriter sw = File.CreateText(settings.Caminho + settings.Pasta + settings.Arquivo))
+                {
+                    sw.WriteLine(usuario);
+                    sw.WriteLine(senha);
+                }
+                return true;
+            }
+            else
+                return false;            
+        }
+
+        public static bool CriarPasta(Settings settings)
+        {
+            if (!File.Exists(settings.Caminho + settings.Pasta + settings.Arquivo))
+            {
+                Directory.CreateDirectory(settings.Caminho + settings.Pasta);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+
+        public static bool LerArquivo(Settings settings, string usuario, string senha)
+        {
+            List<string> loginSenha = new List<string>();
+
+            try
+            {
+                using (StreamReader sr = File.OpenText(settings.Caminho + settings.Pasta + settings.Arquivo))
+                {
+                    string s = "";
+                    while ((s = sr.ReadLine()) != null)
+                    {
+                        loginSenha.Add(s);
+                    }
+                    if (loginSenha[0] == usuario && loginSenha[1] == senha)
+                        return true;
+                    else
+                        return false;
+                }                
+            }
+            catch
+            {
+                return false;
+            }
+            
+            
+        }        
+
+        public static bool DeletarPasta(Settings settings)
+        {
+            if (File.Exists(settings.Caminho + settings.Pasta + settings.Arquivo))
+            {
+                Directory.Delete(settings.Caminho + settings.Pasta, true);
+                return true;
+            }
+            else
+            {                
+                return false;
+            }
+            
+        }
     }
 }
